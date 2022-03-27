@@ -1,0 +1,545 @@
+%-----------------------------------------------------------------------------------------------------------------------------------------------%
+%	The MIT License (MIT)
+%
+%	Copyright (c) 2019 Jan Küster
+%
+%	Permission is hereby granted, free of charge, to any person obtaining a copy
+%	of this software and associated documentation files (the "Software"), to deal
+%	in the Software without restriction, including without limitation the rights
+%	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+%	copies of the Software, and to permit persons to whom the Software is
+%	furnished to do so, subject to the following conditions:
+%	
+%	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+%	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+%	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+%	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+%	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+%	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+%	THE SOFTWARE.
+%	
+%
+%-----------------------------------------------------------------------------------------------------------------------------------------------%
+
+
+%============================================================================%
+%
+%	DOCUMENT DEFINITION
+%
+%============================================================================%
+
+%we use article class because we want to fully customize the page and don't use a cv template
+\documentclass[10pt,A4]{article}	
+
+
+%----------------------------------------------------------------------------------------
+%	ENCODING
+%----------------------------------------------------------------------------------------
+
+% we use utf8 since we want to build from any machine
+\usepackage[utf8]{inputenc}		
+
+%----------------------------------------------------------------------------------------
+%	LOGIC
+%----------------------------------------------------------------------------------------
+
+% provides \isempty test
+\usepackage{xstring, xifthen}
+
+%----------------------------------------------------------------------------------------
+%	FONT BASICS
+%----------------------------------------------------------------------------------------
+
+% some tex-live fonts - choose your own
+
+%\usepackage[defaultsans]{droidsans}
+%\usepackage[default]{comfortaa}
+%\usepackage{cmbright}
+\usepackage[default]{raleway}
+%\usepackage{fetamont}
+%\usepackage[default]{gillius}
+%\usepackage[light,math]{iwona}
+%\usepackage[thin]{roboto} 
+
+% set font default
+\renewcommand*\familydefault{\sfdefault} 	
+\usepackage[T1]{fontenc}
+
+% more font size definitions
+\usepackage{moresize}
+
+%----------------------------------------------------------------------------------------
+%	FONT AWESOME ICONS
+%---------------------------------------------------------------------------------------- 
+
+% include the fontawesome icon set
+\usepackage{fontawesome}
+
+% use to vertically center content
+% credits to: http://tex.stackexchange.com/questions/7219/how-to-vertically-center-two-images-next-to-each-other
+\newcommand{\vcenteredinclude}[1]{\begingroup
+\setbox0=\hbox{\includegraphics{#1}}%
+\parbox{\wd0}{\box0}\endgroup}
+
+% use to vertically center content
+% credits to: http://tex.stackexchange.com/questions/7219/how-to-vertically-center-two-images-next-to-each-other
+\newcommand*{\vcenteredhbox}[1]{\begingroup
+\setbox0=\hbox{#1}\parbox{\wd0}{\box0}\endgroup}
+
+% icon shortcut
+\newcommand{\icon}[3] { 							
+	\makebox(#2, #2){\textcolor{maincol}{\csname fa#1\endcsname}}
+}	
+
+% icon with text shortcut
+\newcommand{\icontext}[4]{ 						
+	\vcenteredhbox{\icon{#1}{#2}{#3}}  \hspace{2pt}  \parbox{0.9\mpwidth}{\textcolor{#4}{#3}}
+}
+
+% icon with website url
+\newcommand{\iconhref}[5]{ 						
+    \vcenteredhbox{\icon{#1}{#2}{#5}}  \hspace{2pt} \href{#4}{\textcolor{#5}{#3}}
+}
+
+% icon with email link
+\newcommand{\iconemail}[5]{ 						
+    \vcenteredhbox{\icon{#1}{#2}{#5}}  \hspace{2pt} \href{mailto:#4}{\textcolor{#5}{#3}}
+}
+
+%----------------------------------------------------------------------------------------
+%	PAGE LAYOUT  DEFINITIONS
+%----------------------------------------------------------------------------------------
+
+% page outer frames (debug-only)
+% \usepackage{showframe}		
+
+% we use paracol to display breakable two columns
+\usepackage{paracol}
+
+% define page styles using geometry
+\usepackage[a4paper]{geometry}
+
+% remove all possible margins
+\geometry{top=1cm, bottom=1cm, left=1cm, right=1cm}
+
+\usepackage{fancyhdr}
+\pagestyle{empty}
+
+% space between header and content
+% \setlength{\headheight}{0pt}
+
+% indentation is zero
+\setlength{\parindent}{0mm}
+
+%----------------------------------------------------------------------------------------
+%	TABLE /ARRAY DEFINITIONS
+%---------------------------------------------------------------------------------------- 
+
+% extended aligning of tabular cells
+\usepackage{array}
+
+% custom column right-align with fixed width
+% use like p{size} but via x{size}
+\newcolumntype{x}[1]{%
+>{\raggedleft\hspace{0pt}}p{#1}}%
+
+
+%----------------------------------------------------------------------------------------
+%	GRAPHICS DEFINITIONS
+%---------------------------------------------------------------------------------------- 
+
+%for header image
+\usepackage{graphicx}
+
+% use this for floating figures
+% \usepackage{wrapfig}
+% \usepackage{float}
+% \floatstyle{boxed} 
+% \restylefloat{figure}
+
+%for drawing graphics		
+\usepackage{tikz}				
+\usetikzlibrary{shapes, backgrounds,mindmap, trees}
+
+%----------------------------------------------------------------------------------------
+%	Color DEFINITIONS
+%---------------------------------------------------------------------------------------- 
+\usepackage{transparent}
+\usepackage{color}
+%\usepackage[dvipsnames]{xcolor}
+% primary color
+\definecolor{maincol}{RGB}{ 56, 112, 48 }
+
+% accent color, secondary
+% \definecolor{accentcol}{RGB}{ 250, 150, 10 }
+
+% dark color
+\definecolor{darkcol}{RGB}{ 70, 70, 70 }
+
+% light color
+\definecolor{lightcol}{RGB}{245,245,245}
+
+
+% Package for links, must be the last package used
+\usepackage[hidelinks]{hyperref}
+
+% returns minipage width minus two times \fboxsep
+% to keep padding included in width calculations
+% can also be used for other boxes / environments
+\newcommand{\mpwidth}{\linewidth-\fboxsep-\fboxsep}
+	
+
+
+%============================================================================%
+%
+%	CV COMMANDS
+%
+%============================================================================%
+
+%----------------------------------------------------------------------------------------
+%	 CV LIST
+%----------------------------------------------------------------------------------------
+
+% renders a standard latex list but abstracts away the environment definition (begin/end)
+\newcommand{\cvlist}[1] {
+	\begin{itemize}{#1}\end{itemize}
+}
+
+%----------------------------------------------------------------------------------------
+%	 CV TEXT
+%----------------------------------------------------------------------------------------
+
+% base class to wrap any text based stuff here. Renders like a paragraph.
+% Allows complex commands to be passed, too.
+% param 1: *any
+\newcommand{\cvtext}[1] {
+	\begin{tabular*}{1\mpwidth}{p{0.98\mpwidth}}
+		\parbox{1\mpwidth}{#1}
+	\end{tabular*}
+}
+
+%----------------------------------------------------------------------------------------
+%	CV SECTION
+%----------------------------------------------------------------------------------------
+
+% Renders a a CV section headline with a nice underline in main color.
+% param 1: section title
+\newcommand{\cvsection}[1] {
+	\vspace{14pt}
+	\cvtext{
+		\textbf{\LARGE{\textcolor{darkcol}{\uppercase{#1}}}}\\[-4pt]
+		\textcolor{maincol}{ \rule{0.1\textwidth}{2pt} } \\
+	}
+}
+
+%----------------------------------------------------------------------------------------
+%	META SKILL
+%----------------------------------------------------------------------------------------
+
+% Renders a progress-bar to indicate a certain skill in percent.
+% param 1: name of the skill / tech / etc.
+% param 2: level (for example in years)
+% param 3: percent, values range from 0 to 1
+\newcommand{\cvskill}[3] {
+	\begin{tabular*}{1\mpwidth}{p{0.72\mpwidth}  r}
+ 		\textcolor{maincol}{\large\textbf{#1}} & \textcolor{maincol}{#2}\\
+	\end{tabular*}%
+	
+	\hspace{4pt}
+	\textcolor{darkcol}{#3}
+	%\begin{tikzpicture}[scale=1,rounded corners=2pt,very thin]
+	%	\fill [lightcol] (0,0) rectangle (1\mpwidth, 0.15);
+	%	\fill [maincol] (0,0) rectangle (#3\mpwidth, 0.15);
+  	%\end{tikzpicture}%
+}
+
+
+%----------------------------------------------------------------------------------------
+%	LANGUAGES
+%----------------------------------------------------------------------------------------
+
+% Renders a progress-bar to indicate a certain skill in percent.
+% param 1: name of the skill / tech / etc.
+% param 2: level (for example in years)
+% param 3: percent, values range from 0 to 1
+\newcommand{\cvlang}[3] {
+	\begin{tabular*}{1\mpwidth}{p{0.72\mpwidth}  r}
+ 		\textcolor{black}{\textbf{#1}} & \textcolor{maincol}{#2}\\
+	\end{tabular*}%
+	
+	\hspace{4pt}
+	%\textcolor{darkcol}{#3}
+	\begin{tikzpicture}[scale=1,rounded corners=2pt,very thin]
+		\fill [lightcol] (0,0) rectangle (1\mpwidth, 0.15);
+		\fill [maincol] (0,0) rectangle (#3\mpwidth, 0.15);
+  	\end{tikzpicture}%
+}
+
+%----------------------------------------------------------------------------------------
+%	 CV EVENT
+%----------------------------------------------------------------------------------------
+
+% Renders a table and a paragraph (cvtext) wrapped in a parbox (to ensure minimum content
+% is glued together when a pagebreak appears).
+% Additional Information can be passed in text or list form (or other environments).
+% the work you did
+% param 1: time-frame i.e. Sep 14 - Jan 15 etc.
+% param 2:	 event name (job position etc.)
+% param 3: Customer, Employer, Industry
+% param 4: Short description
+% param 5: work done (optional)
+% param 6: technologies include (optional)
+% param 7: achievements (optional)
+\newcommand{\cvevent}[7] {
+	
+	% we wrap this part in a parbox, so title and description are not separated on a pagebreak
+	% if you need more control on page breaks, remove the parbox
+	\parbox{\mpwidth}{
+		\begin{tabular*}{1\mpwidth}{p{0.72\mpwidth}  r}
+	 		\textcolor{black}{\textbf{#2}} & \colorbox{maincol}{\makebox[0.25\mpwidth]{\textcolor{white}{#1}}} \\
+			\textcolor{maincol}{\textbf{#3}} & \\
+		\end{tabular*}\\[8pt]
+	
+		\ifthenelse{\isempty{#4}}{}{
+			\cvtext{#4}\\
+		}
+	}
+
+	\ifthenelse{\isempty{#5}}{}{
+		\vspace{9pt}
+		{#5}
+	}
+
+	\ifthenelse{\isempty{#6}}{}{
+		\vspace{9pt}
+		\cvtext{\textbf{Technologies include:}}\\
+		{#6}
+	}
+
+	\ifthenelse{\isempty{#7}}{}{
+		\vspace{9pt}
+		\cvtext{\textbf{Achievements include:}}\\
+		{#7}
+	}
+	\vspace{14pt}
+}
+
+%----------------------------------------------------------------------------------------
+%	 CV META EVENT
+%----------------------------------------------------------------------------------------
+
+% Renders a CV event on the sidebar
+% param 1: title
+% param 2: subtitle (optional)
+% param 3: customer, employer, etc,. (optional)
+% param 4: info text (optional)
+\newcommand{\cvmetaevent}[4] {
+	\textcolor{maincol} {\cvtext{\textbf{\begin{flushleft}#1\end{flushleft}}}}
+
+	\ifthenelse{\isempty{#2}}{}{
+	\textcolor{darkcol} {\cvtext{\textbf{#2}} }
+	}
+
+	\ifthenelse{\isempty{#3}}{}{
+		\cvtext{{ \textcolor{darkcol} {#3} }}\\
+	}
+
+	\cvtext{#4}\\[14pt]
+}
+
+%---------------------------------------------------------------------------------------
+%	QR CODE
+%----------------------------------------------------------------------------------------
+
+% Renders a qrcode image (centered, relative to the parentwidth)
+% param 1: percent width, from 0 to 1
+\newcommand{\cvqrcode}[1] {
+	\begin{center}
+		\includegraphics[width={#1}\mpwidth]{qrcode}
+	\end{center}
+}
+
+
+%============================================================================%
+%
+%
+%
+%	DOCUMENT CONTENT
+%
+%
+%
+%============================================================================%
+\begin{document}
+\columnratio{0.31}
+\setlength{\columnsep}{2.2em}
+\setlength{\columnseprule}{4pt}
+\colseprulecolor{lightcol}
+\begin{paracol}{2}
+\begin{leftcolumn}
+%---------------------------------------------------------------------------------------
+%	META IMAGE
+%----------------------------------------------------------------------------------------
+\includegraphics[width=\linewidth]{cv.jpg}	%trimming relative to image size
+
+%-----------------------
+%	INTERESTS
+%----------------------------------------------------------------------------------------
+
+\cvsection{FOCUS FIELDS}\\[-19pt]
+
+\cvmetaevent
+{\large Data Analysis}{}{}
+{%se vuoi qua mettici una descrizione
+}\\[-58pt]
+
+\cvmetaevent
+{\large Particle Physics}{}{}
+{%se vuoi qua mettici una descrizione
+}\\[-58pt]
+
+\cvmetaevent
+{\large Social and Complex Network Analysis}{}{}
+{%se vuoi qua mettici una descrizione
+}\\[-56pt]
+%
+
+
+%---------------------------------------------------------------------------------------
+%	PROGRAMMING SKILLS
+%----------------------------------------------------------------------------------------
+\cvsection{PROGRAMMING}
+
+\cvskill{\LaTeX} {4+ yrs} {Proficient} \\[-2pt]
+
+\cvskill{Python} {4+ yrs} {Advanced} \\[-2pt]
+
+\cvskill{C/C++} {4+ yrs} {Advanced} \\[-2pt]
+
+\cvskill{ROOT} {2+ yrs} {Intermediate} \\[-5pt]
+
+%---------------------------------------------------------------------------------------
+%	LANGUAGES
+%----------------------------------------------------------------------------------------
+\cvsection{LANGUAGES}
+
+\cvlang{Italian} {MT} {1} \\[-3pt]
+
+\cvlang{English} {C1} {0.9} \\[-3pt]
+
+\cvlang{German} {C1} {0.8} \\[-3pt]
+
+\cvlang{Spanish} {A2} {0.3} \\[-4pt]
+
+
+
+%-----------------------
+%	HOBBIES
+%----------------------------------------------------------------------------------------
+
+%\cvsection{HOBBIES}\\[-15pt]
+%
+%\cvmetaevent
+%{\large Hiking}{}{}
+%{%se vuoi qua mettici una descrizione
+%}\\[-50pt]
+%\cvmetaevent
+%{\large Photography}{}{}
+%{%se vuoi qua mettici una descrizione
+%}\\[-50pt]
+%\cvmetaevent
+%{\large Guitar Playing}{}{}
+%{%se vuoi qua mettici una descrizione
+%}\\[-53pt]
+
+%---------------------------------------------------------------------------------------
+%	CONTACT
+%----------------------------------------------------------------------------------------
+
+\cvsection{CONTACTS}
+
+\icontext{BirthdayCake}{12}{24 November 1998}{black}\\[6pt]
+\icontext{MapMarker}{12}{56126 Pisa, Italy}{black}\\[6pt]
+\icontext{MobilePhone}{12}{+39 340 210 0659}{black}\\[6pt]
+\iconhref{Github}{12}{GitHub: zenith378}{https://github.com/zenith378}{black}\\[6pt]
+\iconemail{Envelope}{12}{giulio.cordova@gmail.com}{giulio.cordova@gmail.com}{black}\\[-1pt]
+
+
+\end{leftcolumn}
+\begin{rightcolumn}
+%---------------------------------------------------------------------------------------
+%	TITLE  HEADER
+%----------------------------------------------------------------------------------------
+\fcolorbox{white}{darkcol}{\begin{minipage}[c][3cm][c]{1\mpwidth}
+	\begin {center}
+		\HUGE{ \textbf{ \textcolor{white}{ \uppercase{ Giulio Cordova } } } } \\[-24pt]
+		\textcolor{white}{ \rule{0.1\textwidth}{1.25pt} } \\[4pt]
+		\large{ \textcolor{white} {High Energy Physicist} }
+	\end {center}
+\end{minipage}} \\[14pt]
+\vspace{-12pt}
+
+%---------------------------------------------------------------------------------------
+%	PROFILE
+%----------------------------------------------------------------------------------------
+\cvsection{PROFILE}
+
+\cvtext{Passionate physics student with a good background in the theoretical and computational side. Enthusiastic to learn, I enjoy new challenges and I am highly motivated to work in an international environment.
+}
+
+
+%---------------------------------------------------------------------------------------
+%	EDUCATION
+%----------------------------------------------------------------------------------------
+\cvsection{EDUCATION}
+
+\cvevent
+{Dec 21 - NOW}
+{Master of Science in Physics}
+{Università di Pisa}
+{My master degree in High Energy Physics has a specific focus on Data Analysis techniques. Besides the courses of theoretical physics on Quantum Field Theory and Fundamental Interactions, I am deepening my knowledge in performing statistical analyses with Data Mining, Machine Learning and Monte Carlo methods. 
+}{}{}{}
+
+\cvevent
+{Oct 18 - Dec 21}
+{Bachelor of Science in Physics}
+{Università di Pisa}
+{The subject of my bachelor's thesis was a precise measurement of the branching ratios of the W boson decay with the CMS experiment. For this project I had a specific focus on the study of the Lepton Universality using Monte Carlo analysis.\\
+Other exams include experimental physics and electronics, classical mechanics and electrodynamics, quantum mechanics, basic nuclear physics, astrophysics, general chemistry, calculus, complex analysis, linear algebra, C, Python, ROOT Languages.
+}{}{}{}
+%---------------------------------------------------------------------------------------
+%	ABROAD
+%----------------------------------------------------------------------------------------
+\vspace{-15pt}
+
+\cvsection{ABROAD EXPERIENCES}
+
+\cvevent
+{Oct 17 - Sep 18}
+{Bachelor of Arts Philosphy}
+{Humboldt Universität zu Berlin}
+{After high school graduation, I attended Philosophy lectures at the Humboldt University of Berlin.}{}{}{}
+
+\cvevent
+{Jul 14 - Aug 15}
+{Mittler Abschluss 10. Klasse}
+{Pindl Gymnasium Regensburg}
+{I attended 10th grade classes in a German high school.}{}{}{}
+%---------------------------------------------------------------------------------------
+%	VOLUNTEERING
+%----------------------------------------------------------------------------------------
+\vspace{-15pt}
+\cvsection{VOLUNTEERING}
+
+\cvevent
+	{Sep 18 - NOW}
+	{Chief Scout}
+	{CNGEI Scout Pisa}
+	{I am a volunteer for the international scout movement at the Italian association CNGEI. The experience of leading a staff that takes care of the educational activities for a group of teens has provided me with logistic, organisation and social skills, as well as good team leading abilities.}
+	{}{}{}%
+% hotfixes to create fake-space to ensure the whole height is used
+%\mbox{}
+%\vfill
+\end{rightcolumn}
+\end{paracol}
+\end{document}
+
