@@ -120,7 +120,7 @@
 \usepackage[a4paper]{geometry}
 
 % remove all possible margins
-\geometry{top=1cm, bottom=1cm, left=1cm, right=1cm}
+\geometry{top=5mm, bottom=5mm, left=5mm, right=5mm}
 
 \usepackage{fancyhdr}
 \pagestyle{empty}
@@ -298,7 +298,7 @@
 		\begin{tabular*}{1\mpwidth}{p{0.72\mpwidth}  r}
 	 		\textcolor{black}{\textbf{#2}} & \colorbox{maincol}{\makebox[0.25\mpwidth]{\textcolor{white}{#1}}} \\
 			\textcolor{maincol}{\textbf{#3}} & \\
-		\end{tabular*}\\[8pt]
+		\end{tabular*}\\[2pt]
 	
 		\ifthenelse{\isempty{#4}}{}{
 			\cvtext{#4}\\
@@ -344,7 +344,7 @@
 		\cvtext{{ \textcolor{darkcol} {#3} }}\\
 	}
 
-	\cvtext{#4}\\[14pt]
+	\cvtext{#4}\\[10pt]
 }
 
 %---------------------------------------------------------------------------------------
@@ -379,7 +379,7 @@
 %---------------------------------------------------------------------------------------
 %	META IMAGE
 %----------------------------------------------------------------------------------------
-\includegraphics[width=\linewidth]{cv.jpg}	%trimming relative to image size
+\includegraphics[width=\linewidth]{IMG_4904-3.jpg}	%trimming relative to image size
 
 %-----------------------
 %	INTERESTS
@@ -390,17 +390,17 @@
 \cvmetaevent
 {\large Data Analysis}{}{}
 {%se vuoi qua mettici una descrizione
-}\\[-58pt]
+}\\[-53pt]
 
 \cvmetaevent
 {\large Particle Physics}{}{}
 {%se vuoi qua mettici una descrizione
-}\\[-58pt]
+}\\[-53pt]
 
 \cvmetaevent
 {\large Social and Complex Network Analysis}{}{}
 {%se vuoi qua mettici una descrizione
-}\\[-56pt]
+}\\[-51pt]
 %
 
 
@@ -411,11 +411,11 @@
 
 \cvskill{\LaTeX} {4+ yrs} {Proficient} \\[-2pt]
 
-\cvskill{Python} {4+ yrs} {Advanced} \\[-2pt]
+\cvskill{Python} {4+ yrs} {Proficient} \\[-2pt]
 
-\cvskill{C/C++} {4+ yrs} {Advanced} \\[-2pt]
+\cvskill{C/C++} {4+ yrs} {Intermediate} \\[-2pt]
 
-\cvskill{ROOT} {2+ yrs} {Intermediate} \\[-5pt]
+\cvskill{ROOT} {1+ yrs} {Basic} \\[-5pt]
 
 %---------------------------------------------------------------------------------------
 %	LANGUAGES
@@ -455,7 +455,7 @@
 %	CONTACT
 %----------------------------------------------------------------------------------------
 
-\cvsection{CONTACTS}
+\cvsection{INFO \& CONTACTS}
 
 \icontext{BirthdayCake}{12}{24 November 1998}{black}\\[6pt]
 \icontext{MapMarker}{12}{56126 Pisa, Italy}{black}\\[6pt]
@@ -473,7 +473,7 @@
 	\begin {center}
 		\HUGE{ \textbf{ \textcolor{white}{ \uppercase{ Giulio Cordova } } } } \\[-24pt]
 		\textcolor{white}{ \rule{0.1\textwidth}{1.25pt} } \\[4pt]
-		\large{ \textcolor{white} {High Energy Physicist} }
+		\large{ \textcolor{white} {High Energy Physics Student} }
 	\end {center}
 \end{minipage}} \\[14pt]
 \vspace{-12pt}
@@ -491,6 +491,8 @@
 %	EDUCATION
 %----------------------------------------------------------------------------------------
 \cvsection{EDUCATION}
+
+\vspace{-5pt}
 
 \cvevent
 {Dec 21 - NOW}
@@ -513,29 +515,42 @@ Other exams include experimental physics and electronics, classical mechanics an
 
 \cvsection{ABROAD EXPERIENCES}
 
+\vspace{-5pt}
+
 \cvevent
 {Oct 17 - Sep 18}
 {Bachelor of Arts Philosphy}
 {Humboldt Universität zu Berlin}
 {After high school graduation, I attended Philosophy lectures at the Humboldt University of Berlin.}{}{}{}
+\vspace{-10pt}
 
 \cvevent
 {Jul 14 - Aug 15}
 {Mittler Abschluss 10. Klasse}
 {Pindl Gymnasium Regensburg}
 {I attended 10th grade classes in a German high school.}{}{}{}
+\vspace{-15pt}
+
 %---------------------------------------------------------------------------------------
 %	VOLUNTEERING
 %----------------------------------------------------------------------------------------
+\vspace{-10pt}
+\cvsection{OTHER INTERESTS}
 \vspace{-15pt}
-\cvsection{VOLUNTEERING}
-
-\cvevent
-	{Sep 18 - NOW}
-	{Chief Scout}
-	{CNGEI Scout Pisa}
-	{I am a volunteer for the international scout movement at the Italian association CNGEI. The experience of leading a staff that takes care of the educational activities for a group of teens has provided me with logistic, organisation and social skills, as well as good team leading abilities.}
-	{}{}{}%
+\cvmetaevent
+	{Volunteering as Chief Scout for CNGEI Pisa}
+	{}{}
+	{The experience of leading a staff that takes care of the educational activities for a group of teens has provided me with logistic, organisation and social skills, as well as good team leading abilities.}\\[-15pt]
+	%\vspace{-15pt}
+\cvmetaevent
+	{Amateur Photography and Videomaking}
+	{}{}
+	{I enjoy shooting pictures, especially mountain landscapes. This hobby provided me with good knowledge of editing software for pictures and videos.}\\[-15pt]
+	\cvmetaevent
+	{Sport \& Music}
+	{}{}
+	{I enjoy hiking and climbing in the mountains. Recently I also started playing beach volley in a local team. I enjoy playing the guitar in a band.}\\[-25pt]
+	
 % hotfixes to create fake-space to ensure the whole height is used
 %\mbox{}
 %\vfill
